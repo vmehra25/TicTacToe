@@ -94,12 +94,72 @@ class MainActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun checkWinner(): Boolean {
-        
-        return true
+        // rows
+        var ans:Boolean = false;
+        for(i in 0..2){
+            if(boardStatus[i][0] == boardStatus[i][1] && boardStatus[i][0] == boardStatus[i][2]){
+                if(boardStatus[i][0] == 1){
+                    updateDisplay("Player X wins");
+                }else if(boardStatus[i][0] == 0){
+                    updateDisplay("Player O wins");
+                }else{
+                    continue;
+                }
+                ans = true;
+                break;
+            }
+        }
+
+        // col
+        for(i in 0..2){
+            if(boardStatus[0][i] == boardStatus[1][i] && boardStatus[0][i] == boardStatus[2][i]){
+                if(boardStatus[0][i] == 1){
+                    updateDisplay("Player X wins");
+                }else if(boardStatus[0][i] == 0){
+                    updateDisplay("Player O wins");
+                }else{
+                    continue;
+                }
+                ans = true;
+                break;
+            }
+        }
+
+        // diagonal
+        if(boardStatus[0][0] == boardStatus[1][1] && boardStatus[0][0] == boardStatus[2][2] && boardStatus[0][0] != -1){
+            if(boardStatus[0][0] == 1){
+                updateDisplay("Player X wins");
+            }else{
+                updateDisplay("Player O wins");
+            }
+            ans = true;
+        }
+        if(boardStatus[0][2] == boardStatus[1][1] && boardStatus[0][2] == boardStatus[2][0] && boardStatus[0][2] != -1){
+            if(boardStatus[0][2] == 1){
+                updateDisplay("Player X wins");
+            }else{
+                updateDisplay("Player O wins");
+            }
+            ans = true;
+        }
+
+
+        return ans;
     }
 
     private fun updateDisplay(s: String) {
         displayTv.text = s;
+        if(s.contains("wins")){
+            disableButtons();
+        }
+    }
+
+    private fun disableButtons() {
+        for (i in 0..2){
+            for (j in 0..2){
+                board[i][j].isEnabled = false;
+            }
+        }
     }
 
     private fun updateVal(row: Int, col: Int, player: Boolean) {
